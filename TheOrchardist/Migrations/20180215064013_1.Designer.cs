@@ -11,8 +11,8 @@ using TheOrchardist.Data;
 namespace TheOrchardist.Migrations
 {
     [DbContext(typeof(OrchardDBContext))]
-    [Migration("20180204223352_mig4")]
-    partial class mig4
+    [Migration("20180215064013_1")]
+    partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

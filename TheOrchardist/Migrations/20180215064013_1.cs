@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace TheOrchardist.Migrations
 {
-    public partial class mig1 : Migration
+    public partial class _1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,7 +33,8 @@ namespace TheOrchardist.Migrations
                 {
                     OrchardID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    OrchardName = table.Column<string>(nullable: false)
+                    OrchardName = table.Column<string>(nullable: false),
+                    UserID = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

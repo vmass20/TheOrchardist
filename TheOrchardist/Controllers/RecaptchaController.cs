@@ -27,7 +27,7 @@ namespace TheOrchardist.Controllers
       var encodedResponse = Request.Form["g-Recaptcha-Response"];
       using (var client = new WebClient())
       {
-        var response = client.DownloadString($"https://www.google.com/recaptcha/api/siteverify?secret={ Startup.Configuration["AppSettings:GoogleCaptchaSiteKeyDev"] }&response={ encodedResponse }");
+        var response = client.DownloadString($"https://www.google.com/recaptcha/api/siteverify?secret={ Startup.Configuration["AppSettings:GoogleCaptchaSiteKey"] }&response={ encodedResponse }");
         return JsonConvert.DeserializeObject<CaptchaResponse>(response).Success;
       }
 
