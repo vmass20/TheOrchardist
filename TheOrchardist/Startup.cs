@@ -27,18 +27,18 @@ namespace TheOrchardist
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("AzureConnection")));
 
             services.AddIdentity<ApplicationUser, ApplicationIdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
       services.AddDbContext<OrchardDBContext>(options1 =>
-options1.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+options1.UseSqlServer(Configuration.GetConnectionString("AzureConnection")));
 
       //services.Configure<AuthMessageSenderOptions>(Configuration);
-      //services.Configure<StorageOptions>(Configuration.GetSection("AzureStorageConfig"));
-      //services.Configure<StorageOptions>(Configuration.GetSection("AppSettings"));
+      services.Configure<StorageOptions>(Configuration.GetSection("AzureStorageConfig"));
+      services.Configure<StorageOptions>(Configuration.GetSection("AppSettings"));
 
       services.AddAuthentication().AddMicrosoftAccount(microsoftOptions =>
       {
@@ -76,7 +76,14 @@ options1.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
+      var builder = new ConfigurationBuilder()
+.SetBasePath(env.ContentRootPath)
+.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+.AddEnvironmentVariables();
+      Configuration = builder.Build();
+      app.UseSession();
+      if (env.IsDevelopment())
             {
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
@@ -88,8 +95,8 @@ options1.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             }
 
             app.UseStaticFiles();
-
-            app.UseAuthentication();
+      app.UseCookiePolicy().UseAuthentication();
+      app.UseAuthentication();
 
       app.UseMvc(routes =>
       {
