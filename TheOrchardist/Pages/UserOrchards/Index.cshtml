@@ -1,0 +1,55 @@
+﻿@page
+@model TheOrchardist.Pages.UserOrchards.IndexModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using System.Drawing
+@{
+  ViewData["Title"] = "Index";
+  string currentFilter = ViewBag.CurrentFilter;
+  string sortOrder = ViewBag.sortOrder;
+}
+
+<body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a asp-page="/Index"><img width="75" height="50" src="https://massatstorage.blob.core.windows.net/orchadistfiles/logonew.png" /></a>
+            </div>
+            <div  class="navbar-collapse collapse">
+                <ul class="nav navbar-nav"  >
+                    <li><a style="font-size:larger" asp-page="Create">Create New Orchard</a></li>
+                </ul>
+                @await Html.PartialAsync("_LoginPartial")
+            </div>
+        </div>
+    </nav>
+    <table class="table table-hover" style="table-layout:fixed">
+        <thead>
+            <tr>
+                <th >
+                   @*@Html.DisplayNameFor(model => model.Orchard[0].OrchardName )*@ 
+                    <label >Orchard Name(s)</label>
+                </th>
+                <th ></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.Orchard)
+            {
+                <tr>
+                    <td >
+                        <a style="font-weight:bold" asp-page="/UserPlants/Index" asp-route-id="@item.OrchardID" asp-route-orchardname="@item.OrchardName">
+                            @Html.DisplayFor(modelItem => item.OrchardName)
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.OrchardID" asp-route-orchardname="@Model.OrchardName"><span class="glyphicon glyphicon-edit" title="Edit"></span></a> |
+                        <a asp-page="./Details" asp-route-id="@item.OrchardID" asp-route-orchardname="@Model.OrchardName"><span class="glyphicon glyphicon-info-sign" title="Details"></span></a> |
+                        <a asp-page="./Delete" asp-route-id="@item.OrchardID" asp-route-orchardname="@Model.OrchardName"><span class="glyphicon glyphicon-remove" title="Delete"></span></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>

@@ -1,0 +1,160 @@
+﻿@page
+@model TheOrchardist.Pages.Account.UserPlants.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>UserPlantList</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPlantList.ID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserPlantList.ID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPlantList.UserID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserPlantList.UserID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPlantList.OrchardName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserPlantList.OrchardName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPlantList.PlantName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserPlantList.PlantName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPlantList.FruitVariety)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserPlantList.FruitVariety)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPlantList.Origin)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserPlantList.Origin)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPlantList.Use)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserPlantList.Use)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPlantList.YearDeveloped)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserPlantList.YearDeveloped)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPlantList.Comments)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserPlantList.Comments)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPlantList.DatePlanted)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserPlantList.DatePlanted)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPlantList.TreeCount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserPlantList.TreeCount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPlantList.Parentage)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserPlantList.Parentage)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPlantList.Rootstock)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserPlantList.Rootstock)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPlantList.RootstockHeight)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserPlantList.RootstockHeight)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPlantList.RootstockWidth)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserPlantList.RootstockWidth)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPlantList.HarvestSeason)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserPlantList.HarvestSeason)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPlantList.ActualHarvestDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserPlantList.ActualHarvestDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPlantList.MaintainedHeight)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserPlantList.MaintainedHeight)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPlantList.MaintainedWidth)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserPlantList.MaintainedWidth)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPlantList.Location)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserPlantList.Location)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPlantList.Area)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserPlantList.Area)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPlantList.Section)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserPlantList.Section)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPlantList.Number)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserPlantList.Number)
+        </dd>
+    </dl>
+
+    <form method="post">
+        <input type="hidden" asp-for="UserPlantList.OrchardID" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>

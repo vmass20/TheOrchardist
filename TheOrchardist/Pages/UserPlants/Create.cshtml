@@ -1,0 +1,170 @@
+﻿@page
+@model TheOrchardist.Pages.Account.UserPlants.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a asp-page="/Index"><img width="75" height="50" src="https://massatstorage.blob.core.windows.net/orchadistfiles/logonew.png" /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a asp-page="/UserOrchards/Index" asp-route-orchardname="@Model.OrchardName">Orchards</a></li>
+                <li><a asp-page="/UserPlants/Index" asp-route-orchardname="@Model.OrchardName">@Model.OrchardName</a></li>
+            </ul>
+            @await Html.PartialAsync("_LoginPartial")
+        </div>
+    </div>
+</nav>
+<h2>@Model.OrchardName</h2>
+
+@*<h4>UserPlantList</h4>*@
+<hr />
+<div>
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#first" aria-controls="first" role="tab" data-toggle="tab">Main Details</a></li>
+        <li role="presentation"><a href="#second" aria-controls="second" role="tab" data-toggle="tab">Location</a></li>
+        <li role="presentation"><a href="#third" aria-controls="third" role="tab" data-toggle="tab">Rootstock</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="first">
+
+            <div class="row">
+                <form method="post">
+                    <div class="col-md-4">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        @*<div class="form-group">
+                            <label style="background:none;border:none" asp-for="UserPlantList.OrchardName" class="control-label"></label>
+                            <input type="text" style="background:none;border:none" readonly asp-for="UserPlantList.OrchardName" class="form-control" />
+                            <span style="background:none;border:none" asp-validation-for="UserPlantList.OrchardName" class="text-danger"></span>
+                        </div>*@
+                        <div class="form-group">
+                            <label asp-for="UserPlantList.PlantName" class="control-label"></label>
+                            <input asp-for="UserPlantList.PlantName" class="form-control" />
+                            <span asp-validation-for="UserPlantList.PlantName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="UserPlantList.FruitVariety" class="control-label"></label>
+                            <input asp-for="UserPlantList.FruitVariety" class="form-control" />
+                            <span asp-validation-for="UserPlantList.FruitVariety" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="UserPlantList.Origin" class="control-label"></label>
+                            <input asp-for="UserPlantList.Origin" class="form-control" />
+                            <span asp-validation-for="UserPlantList.Origin" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="UserPlantList.Use" class="control-label"></label>
+                            <input asp-for="UserPlantList.Use" class="form-control" />
+                            <span asp-validation-for="UserPlantList.Use" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="UserPlantList.YearDeveloped" class="control-label"></label>
+                            <input asp-for="UserPlantList.YearDeveloped" class="form-control" />
+                            <span asp-validation-for="UserPlantList.YearDeveloped" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="UserPlantList.Comments" class="control-label"></label>
+                            <input asp-for="UserPlantList.Comments" class="form-control" />
+                            <span asp-validation-for="UserPlantList.Comments" class="text-danger"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="second">
+            <form method="post">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="UserPlantList.DatePlanted" class="control-label"></label>
+                        <input asp-for="UserPlantList.DatePlanted" class="form-control" />
+                        <span asp-validation-for="UserPlantList.DatePlanted" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UserPlantList.TreeCount" class="control-label"></label>
+                        <input asp-for="UserPlantList.TreeCount" class="form-control" />
+                        <span asp-validation-for="UserPlantList.TreeCount" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UserPlantList.Parentage" class="control-label"></label>
+                        <input asp-for="UserPlantList.Parentage" class="form-control" />
+                        <span asp-validation-for="UserPlantList.Parentage" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UserPlantList.Rootstock" class="control-label"></label>
+                        <input asp-for="UserPlantList.Rootstock" class="form-control" />
+                        <span asp-validation-for="UserPlantList.Rootstock" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UserPlantList.RootstockHeight" class="control-label"></label>
+                        <input asp-for="UserPlantList.RootstockHeight" class="form-control" />
+                        <span asp-validation-for="UserPlantList.RootstockHeight" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UserPlantList.RootstockWidth" class="control-label"></label>
+                        <input asp-for="UserPlantList.RootstockWidth" class="form-control" />
+                        <span asp-validation-for="UserPlantList.RootstockWidth" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UserPlantList.HarvestSeason" class="control-label"></label>
+                        <input asp-for="UserPlantList.HarvestSeason" class="form-control" />
+                        <span asp-validation-for="UserPlantList.HarvestSeason" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UserPlantList.ActualHarvestDate" class="control-label"></label>
+                        <input asp-for="UserPlantList.ActualHarvestDate" class="form-control" />
+                        <span asp-validation-for="UserPlantList.ActualHarvestDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UserPlantList.MaintainedHeight" class="control-label"></label>
+                        <input asp-for="UserPlantList.MaintainedHeight" class="form-control" />
+                        <span asp-validation-for="UserPlantList.MaintainedHeight" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UserPlantList.MaintainedWidth" class="control-label"></label>
+                        <input asp-for="UserPlantList.MaintainedWidth" class="form-control" />
+                        <span asp-validation-for="UserPlantList.MaintainedWidth" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UserPlantList.Location" class="control-label"></label>
+                        <input asp-for="UserPlantList.Location" class="form-control" />
+                        <span asp-validation-for="UserPlantList.Location" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UserPlantList.Area" class="control-label"></label>
+                        <input asp-for="UserPlantList.Area" class="form-control" />
+                        <span asp-validation-for="UserPlantList.Area" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UserPlantList.Section" class="control-label"></label>
+                        <input asp-for="UserPlantList.Section" class="form-control" />
+                        <span asp-validation-for="UserPlantList.Section" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UserPlantList.Number" class="control-label"></label>
+                        <input asp-for="UserPlantList.Number" class="form-control" />
+                        <span asp-validation-for="UserPlantList.Number" class="text-danger"></span>
+                    </div>
+
+
+                </div>
+            </form>
+        </div>
+        <div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+            <a asp-page="Index">Back to List</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

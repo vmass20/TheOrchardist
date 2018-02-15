@@ -1,0 +1,55 @@
+﻿@page
+@model TheOrchardist.Pages.GlobalPlants.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>@Model.OrchardName</h2>
+
+<div>
+    <h4>GlobalPlantList</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.GlobalPlantList.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GlobalPlantList.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GlobalPlantList.FruitVariety)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GlobalPlantList.FruitVariety)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GlobalPlantList.Origin)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GlobalPlantList.Origin)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GlobalPlantList.YearDeveloped)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GlobalPlantList.YearDeveloped)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GlobalPlantList.Use)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GlobalPlantList.Use)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GlobalPlantList.Comments)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GlobalPlantList.Comments)
+        </dd>
+    </dl>
+</div>
+<div>
+    @*<a asp-page="./Edit" asp-route-id="@Model.GlobalPlantList.ID">Edit</a> |*@
+    <a asp-page="./Index" asp-route-orchardname="@Model.OrchardName">Back to List</a>
+</div>

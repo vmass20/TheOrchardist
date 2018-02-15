@@ -1,0 +1,25 @@
+﻿@page
+@model TheOrchardist.Pages.UserOrchards.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Orchard</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Orchard.OrchardName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Orchard.OrchardName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Orchard.OrchardID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

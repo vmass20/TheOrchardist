@@ -1,0 +1,151 @@
+﻿@page
+@model TheOrchardist.Pages.Account.UserPlants.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+<style type="text/css">
+    /*table.background { background: url("c") no-repeat; }*/
+
+</style>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a asp-page="/Index"><img width="75" height="50" src="https://massatstorage.blob.core.windows.net/orchadistfiles/logonew.png" /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a asp-page="/UserOrchards/Index" asp-route-orchardname="@Model.OrchardName">Orchards</a></li>
+                <li><a asp-page="/GlobalPlants/Index" asp-route-orchardname="@Model.OrchardName">Find Fruit</a></li>
+                <li><a asp-page="Create" asp-route-orchardname="@Model.OrchardName">Add Your Own Variety</a></li>
+
+            </ul>
+            @await Html.PartialAsync("_LoginPartial")
+        </div>
+    </div>
+</nav>
+<section><h2>@Model.OrchardName</h2></section>
+
+<table class="table" style="table-layout:fixed">
+    <thead>
+        <tr>
+            <th width="300">
+                @Html.DisplayNameFor(model => model.UserPlantList[0].PlantName)
+            </th>
+            <th width="200">
+                @Html.DisplayNameFor(model => model.UserPlantList[0].FruitVariety)
+            </th>
+            <th width="200">
+                @Html.DisplayNameFor(model => model.UserPlantList[0].Use)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.UserPlantList[0].DatePlanted)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserPlantList[0].TreeCount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserPlantList[0].Parentage)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserPlantList[0].Rootstock)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserPlantList[0].RootstockHeight)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserPlantList[0].RootstockWidth)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserPlantList[0].HarvestSeason)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserPlantList[0].ActualHarvestDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserPlantList[0].MaintainedHeight)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserPlantList[0].MaintainedWidth)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserPlantList[0].Location)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserPlantList[0].Area)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserPlantList[0].Section)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserPlantList[0].Number)
+                </th>
+                <th></th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.UserPlantList)
+        {
+            <tr>
+                <td >
+                    <a style="font-weight:bold" asp-page="./Details" asp-route-id="@item.OrchardID" asp-route-orchardname="@item.OrchardName">
+                        @Html.DisplayFor(modelItem => item.PlantName)
+                    </a>
+                </td>
+                <td >
+                    @Html.DisplayFor(modelItem => item.FruitVariety)
+                </td>
+                <td >
+                    @Html.DisplayFor(modelItem => item.Use)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.DatePlanted)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TreeCount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Parentage)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rootstock)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RootstockHeight)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RootstockWidth)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HarvestSeason)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActualHarvestDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MaintainedHeight)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MaintainedWidth)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Location)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Area)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Section)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Number)
+                    </td>*@
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.OrchardID" asp-route-orchardname="@Model.OrchardName"><span class="glyphicon glyphicon-edit" title="Edit"></span></a> |
+                    @*<a asp-page="./Details" asp-route-id="@item.OrchardID" asp-route-orchardname="@Model.OrchardName"><span class="glyphicon-list" title="Details"></span></a> |*@
+                    <a asp-page="./Delete" asp-route-id="@item.OrchardID" asp-route-orchardname="@Model.OrchardName"><span class="glyphicon glyphicon-remove" title="Delete"></span></a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

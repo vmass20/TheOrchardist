@@ -1,0 +1,168 @@
+﻿
+@page "{handler?}"
+@model TheOrchardist.Pages.GlobalPlants.IndexModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Routing
+
+@{
+
+    ViewData["Title"] = "The Orchardist";
+    string currentFilter = ViewBag.CurrentFilter;
+    string sortOrder = ViewBag.sortOrder;
+
+    if (string.IsNullOrEmpty(sortOrder))
+    {
+        sortOrder = "name_desc";
+    }
+}
+@{
+    var prevDisabled = !Model.PaginatedList.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.PaginatedList.HasNextPage ? "disabled" : "";
+    var totalItems = Model.PaginatedList.Count;
+
+}
+
+
+<h2>@Model.OrchardName</h2>
+<h4>Choose Fruits for your Orchard</h4>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a asp-page="/Index"><img width="75" height="50" src="https://massatstorage.blob.core.windows.net/orchadistfiles/logonew.png" /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a asp-page="/UserOrchards/Index" asp-route-orchardname="@Model.OrchardName">Orchards</a></li>
+                <li><a asp-page="/UserPlants/Index" asp-route-orchardname="@Model.OrchardName">@Model.OrchardName</a></li>
+                <li><a asp-page="Create" asp-route-orchardname="@Model.OrchardName">Add Your Own Variety</a></li>
+            </ul>
+            @await Html.PartialAsync("_LoginPartial")
+        </div>
+    </div>
+</nav>
+
+@{ Html.BeginForm();}
+<p>
+    Use Any Combination:
+    <input placeholder="Name" type="text" name="SearchString" />
+    <select  asp-for="@Model.FruitVariety" asp-items="Model.FruitTypes">
+        <option value="">Fruit Type</option>
+    </select>
+    <select asp-for="@Model.Use" asp-items="Model.UseTypes">
+        <option value="">Fruit Use</option>
+    </select>
+
+    @Html.HiddenFor(d => d.Use)
+    @Html.HiddenFor(d => d.FruitVariety)
+    @Html.HiddenFor(d => d.OrchardName)
+
+    <input type="submit" value="Filter" asp-page-handler="Use" asp-route-pageindex="@Model.pageIndex" asp-route-pagesize="@Model.pageSize" asp-route-orchardname="@Model.OrchardName" asp-route-fruitvariety="@Model.FruitVariety" asp-route-use="@Model.Use" asp-route-desc="@Model.Desc" />
+
+    <a asp-page="./Index" asp-route-orchardname="@Model.OrchardName">Back to list</a>
+</p>
+
+@{ Html.EndForm();}
+@*@Html.DropDownList("Sortby", new SelectListItem[]
+       { new SelectListItem() { Text = "Newest to Oldest", Value = "0" },
+    new SelectListItem() { Text = "Oldest to Newest", Value = "1" }},
+         new { @onchange = "CallChangefunc(this.value)" })*@
+<p>
+
+    @{ Html.BeginForm("ResultViewListCount", "PageListCount");}
+    @*<select id="selectNumber" asp-for="@Model.itemsPage" asp-items="@Model.itemsPerPage" onchange="CallChangefunc1(this, this)"></select>*@
+    Items on Page: @*@Html.DropDownList("DropDown1", @Model.itemsPerPage, new { onChange = "this.form.submit()" })
+        <input type="hidden" name="DropDown1Value" />*@
+    @{
+        SelectList PageSelectListCount = new SelectList(new[] {
+   new SelectListItem() { Text = "50", Value = "50" },
+  new SelectListItem() { Text = "25", Value = "25" },
+new SelectListItem() { Text = "5", Value = "5" },
+},
+    "Value", "Text");
+
+    }
+    @Html.DropDownList("DropDownSelectListCount", PageSelectListCount, Model.pageSize.ToString(), new { id = this.Model.OrchardName, @onchange = "CallChangefunc(this.value, id )" })
+    <script>
+        function CallChangefunc(val, orchardname) {
+            window.location.href = "/PageListCount/ResultViewListCount?lala=" + orchardname + ";" + val;
+        }
+    </script>
+    @{ Html.EndForm();}
+
+</p>
+<div class="row">
+    <div class="col-12 .col-sm-6 .col-lg-8">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GlobalPlantList[0].Name)
+
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GlobalPlantList[0].FruitVariety)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GlobalPlantList[0].Use)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.GlobalPlantList)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FruitVariety)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Use)
+                        </td>
+                        <td>
+                            @*<a asp-page="./Edit" asp-route-id="@item.ID" asp-route-orchardname="@Model.OrchardName">Edit</a> |*@
+                            <a asp-page="./Details" asp-route-id="@item.ID" asp-route-orchardname="@Model.OrchardName">
+                                <span class="glyphicon glyphicon-info-sign" title="Details"></span>
+                            </a> |
+                            @*<form method="post">*@
+                            <a asp-page="/UserPlants/Create" asp-route-id="@item.ID" asp-route-orchardname="@Model.OrchardName">
+                                <span class="glyphicon glyphicon-plus" title="Add to Orchard"></span>
+                            </a>
+                            @*</form>*@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div col-lg-6>
+        <a asp-page="/GlobalPlants/Index"
+           asp-route-sortOrder="@Model.sortOrder"
+           asp-route-pageIndex="@(Model.PaginatedList.PageIndex - 1)"
+           asp-route-pageSize="@Model.pageSize"
+           asp-route-currentFilter="@Model.CurrentFilter"
+           asp-route-orchardname="@Model.OrchardName"
+           class="btn btn-default @prevDisabled">
+            Previous
+        </a>
+        <a asp-page="/GlobalPlants/Index"
+           asp-route-sortOrder="@Model.sortOrder"
+           asp-route-pageIndex="@(Model.PaginatedList.PageIndex + 1)"
+           asp-route-pageSize="@Model.pageSize"
+           asp-route-currentFilter="@Model.CurrentFilter"
+           asp-route-orchardname="@Model.OrchardName"
+           class="btn btn-default @nextDisabled">
+            Next
+        </a>
+        <p>Page @Model.PaginatedList.PageIndex of @Model.PaginatedList.TotalPages</p>
+        <div class="wikilink">
+            <h2 style="font-size:small"> Much of this text in this list is from the wikipedia's - </h2>
+            <a class="btn btn-default" href="https://en.wikipedia.org/wiki/List_of_apple_cultivars">List of apple cutlivars</a>
+            <div>
+                Rootstocks are commonly used instead of the seedling rootstock. Check them out <a onclick="window.open('/SharedPages/RootstockPage')">here</a>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,60 @@
+﻿@page
+@model TheOrchardist.Pages.GlobalPlants.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>GlobalPlantList</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="GlobalPlantList.ID" />
+            <div class="form-group">
+                <label asp-for="GlobalPlantList.Name" class="control-label"></label>
+                <input asp-for="GlobalPlantList.Name" class="form-control" />
+                <span asp-validation-for="GlobalPlantList.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GlobalPlantList.FruitVariety" class="control-label"></label>
+                <input asp-for="GlobalPlantList.FruitVariety" class="form-control" />
+                <span asp-validation-for="GlobalPlantList.FruitVariety" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GlobalPlantList.Origin" class="control-label"></label>
+                <input asp-for="GlobalPlantList.Origin" class="form-control" />
+                <span asp-validation-for="GlobalPlantList.Origin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GlobalPlantList.YearDeveloped" class="control-label"></label>
+                <input asp-for="GlobalPlantList.YearDeveloped" class="form-control" />
+                <span asp-validation-for="GlobalPlantList.YearDeveloped" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GlobalPlantList.Use" class="control-label"></label>
+                <input asp-for="GlobalPlantList.Use" class="form-control" />
+                <span asp-validation-for="GlobalPlantList.Use" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GlobalPlantList.Comments" class="control-label"></label>
+                <input asp-for="GlobalPlantList.Comments" class="form-control" />
+                <span asp-validation-for="GlobalPlantList.Comments" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
