@@ -11,8 +11,8 @@ using TheOrchardist.Data;
 namespace TheOrchardist.Migrations
 {
     [DbContext(typeof(OrchardDBContext))]
-    [Migration("20180215064013_1")]
-    partial class _1
+    [Migration("20180225175856_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,7 +64,7 @@ namespace TheOrchardist.Migrations
 
             modelBuilder.Entity("TheOrchardist.Data.UserPlantList", b =>
                 {
-                    b.Property<int>("OrchardID")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("ActualHarvestDate");
@@ -81,8 +81,6 @@ namespace TheOrchardist.Migrations
 
                     b.Property<string>("HarvestSeason");
 
-                    b.Property<int>("ID");
-
                     b.Property<string>("Location");
 
                     b.Property<string>("MaintainedHeight");
@@ -90,8 +88,6 @@ namespace TheOrchardist.Migrations
                     b.Property<string>("MaintainedWidth");
 
                     b.Property<string>("Number");
-
-                    b.Property<int?>("OrchardID1");
 
                     b.Property<string>("OrchardName");
 
@@ -121,18 +117,9 @@ namespace TheOrchardist.Migrations
 
                     b.Property<string>("YearDeveloped");
 
-                    b.HasKey("OrchardID");
-
-                    b.HasIndex("OrchardID1");
+                    b.HasKey("ID");
 
                     b.ToTable("UserPlantList");
-                });
-
-            modelBuilder.Entity("TheOrchardist.Data.UserPlantList", b =>
-                {
-                    b.HasOne("TheOrchardist.Data.Orchard", "Orchard")
-                        .WithMany("UserPlantLists")
-                        .HasForeignKey("OrchardID1");
                 });
 #pragma warning restore 612, 618
         }

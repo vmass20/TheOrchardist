@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.Web;
 
 namespace TheOrchardist.Controllers
 {
@@ -18,5 +19,18 @@ namespace TheOrchardist.Controllers
      
       return View();
     }
+
+    [HttpPost]
+    public ActionResult SaveMap(string dataURL)
+    {
+      
+      return View();
+    }
+    //[HttpPost]
+    //public ActionResult Save(Microsoft.AspNetCore.Http.Extensions.HttpRequestMultipartExtensions Attachment)
+    //{
+    //  //do stuff
+    //  return View();
+    //}
   }
 }

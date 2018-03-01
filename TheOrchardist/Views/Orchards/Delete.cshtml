@@ -1,0 +1,39 @@
+﻿@model TheOrchardist.Data.Orchard
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Orchard</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OrchardName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OrchardName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OrchardMapDataUrl)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OrchardMapDataUrl)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="OrchardID" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

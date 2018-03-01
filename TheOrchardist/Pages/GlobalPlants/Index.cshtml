@@ -28,7 +28,7 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a asp-page="/Index"><img width="75" height="50" src="https://massatstorage.blob.core.windows.net/orchadistfiles/logonew.png" /></a>
+            <a asp-page="/Index"><img  width="85" height="55"  src="https://massatstorage.blob.core.windows.net/orchadistfiles/logonew.png" /></a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -40,11 +40,11 @@
         </div>
     </div>
 </nav>
-
-@{ Html.BeginForm();}
+<div >@DateTime.Now.Date.Date</div>
+@{ Html.BeginForm(null,null,FormMethod.Get);}
 <p>
     Use Any Combination:
-    <input placeholder="Name" type="text" name="SearchString" />
+    <input placeholder="Name" type="text" name="SearchString" asp-for="@Model.SearchString" />
     <select  asp-for="@Model.FruitVariety" asp-items="Model.FruitTypes">
         <option value="">Fruit Type</option>
     </select>
@@ -56,22 +56,18 @@
     @Html.HiddenFor(d => d.FruitVariety)
     @Html.HiddenFor(d => d.OrchardName)
 
-    <input type="submit" value="Filter" asp-page-handler="Use" asp-route-pageindex="@Model.pageIndex" asp-route-pagesize="@Model.pageSize" asp-route-orchardname="@Model.OrchardName" asp-route-fruitvariety="@Model.FruitVariety" asp-route-use="@Model.Use" asp-route-desc="@Model.Desc" />
+    <input type="submit" formmethod="get"  value="Filter" asp-route-searchstring="@Model.SearchString" asp-route-pageindex="@Model.pageIndex" asp-route-pagesize="@Model.pageSize" asp-route-orchardname="@Model.OrchardName" asp-route-fruitvariety="@Model.FruitVariety" asp-route-use="@Model.Use" asp-route-desc="@Model.Desc" />
 
     <a asp-page="./Index" asp-route-orchardname="@Model.OrchardName">Back to list</a>
 </p>
 
 @{ Html.EndForm();}
-@*@Html.DropDownList("Sortby", new SelectListItem[]
-       { new SelectListItem() { Text = "Newest to Oldest", Value = "0" },
-    new SelectListItem() { Text = "Oldest to Newest", Value = "1" }},
-         new { @onchange = "CallChangefunc(this.value)" })*@
+
 <p>
 
     @{ Html.BeginForm("ResultViewListCount", "PageListCount");}
-    @*<select id="selectNumber" asp-for="@Model.itemsPage" asp-items="@Model.itemsPerPage" onchange="CallChangefunc1(this, this)"></select>*@
-    Items on Page: @*@Html.DropDownList("DropDown1", @Model.itemsPerPage, new { onChange = "this.form.submit()" })
-        <input type="hidden" name="DropDown1Value" />*@
+   
+    Items on Page:
     @{
         SelectList PageSelectListCount = new SelectList(new[] {
    new SelectListItem() { Text = "50", Value = "50" },
@@ -83,6 +79,7 @@ new SelectListItem() { Text = "5", Value = "5" },
     }
     @Html.DropDownList("DropDownSelectListCount", PageSelectListCount, Model.pageSize.ToString(), new { id = this.Model.OrchardName, @onchange = "CallChangefunc(this.value, id )" })
     <script>
+  
         function CallChangefunc(val, orchardname) {
             window.location.href = "/PageListCount/ResultViewListCount?lala=" + orchardname + ";" + val;
         }
@@ -116,6 +113,7 @@ new SelectListItem() { Text = "5", Value = "5" },
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.FruitVariety)
+
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Use)
@@ -126,7 +124,7 @@ new SelectListItem() { Text = "5", Value = "5" },
                                 <span class="glyphicon glyphicon-info-sign" title="Details"></span>
                             </a> |
                             @*<form method="post">*@
-                            <a asp-page="/UserPlants/Create" asp-route-id="@item.ID" asp-route-orchardname="@Model.OrchardName">
+                            <a asp-page="./Create" asp-route-id="@item.ID" asp-route-orchardname="@Model.OrchardName" >
                                 <span class="glyphicon glyphicon-plus" title="Add to Orchard"></span>
                             </a>
                             @*</form>*@
@@ -143,6 +141,9 @@ new SelectListItem() { Text = "5", Value = "5" },
            asp-route-pageSize="@Model.pageSize"
            asp-route-currentFilter="@Model.CurrentFilter"
            asp-route-orchardname="@Model.OrchardName"
+           asp-route-use="@Model.Use"
+            asp-route-fruitvariety="@Model.FruitVariety"
+            asp-route-searchstring="@Model.SearchString"
            class="btn btn-default @prevDisabled">
             Previous
         </a>
@@ -152,6 +153,9 @@ new SelectListItem() { Text = "5", Value = "5" },
            asp-route-pageSize="@Model.pageSize"
            asp-route-currentFilter="@Model.CurrentFilter"
            asp-route-orchardname="@Model.OrchardName"
+              asp-route-use="@Model.Use"
+          asp-route-fruitvariety="@Model.FruitVariety"
+          asp-route-searchstring="@Model.SearchString"
            class="btn btn-default @nextDisabled">
             Next
         </a>

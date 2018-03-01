@@ -13,5 +13,20 @@ namespace TheOrchardist.Pages.SharedPages
         {
 
         }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult OnPostOpenPaymentForm()
+    {
+      return RedirectToPage("PaymentForm");
     }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult OnPostOpenRegisterForm()
+    {
+      return RedirectToPage("/Account/Register");
+    }
+
+  }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using TheOrchardist.Data;
 
 namespace TheOrchardist.Pages.GlobalPlants
@@ -23,27 +24,56 @@ namespace TheOrchardist.Pages.GlobalPlants
       _userManager = userManager;
         }
 
-        public IActionResult OnGet(string OrchardName)
+        public async Task<IActionResult> OnGet(int? id,string OrchardName)
         {
             this.OrchardName = OrchardName;
-             return Page();
+
+        if (id == null)
+        {
+          return NotFound();
         }
+
+        GlobalPlantList = await _context.GlobalPlantLists.SingleOrDefaultAsync(m => m.ID == id);
+
+        if (GlobalPlantList == null)
+        {
+          return NotFound();
+        }
+        return Page();
+      
+    }
 
         [BindProperty]
         public GlobalPlantList GlobalPlantList { get; set; }
 
         public async Task<IActionResult> OnPostAsync(string OrchardName)
         {
-            if (!ModelState.IsValid)
+      UserPlantList userPlantList = new UserPlantList();
+      var userId = _userManager.GetUserId(HttpContext.User);
+      userPlantList.UserID = userId;
+      userPlantList.OrchardName = OrchardName;
+      userPlantList.FruitVariety = GlobalPlantList.FruitVariety;
+      userPlantList.PlantName = GlobalPlantList.Name;
+      userPlantList.Origin = GlobalPlantList.Origin;
+      userPlantList.YearDeveloped = GlobalPlantList.YearDeveloped;
+      userPlantList.Comments = GlobalPlantList.Comments;
+      userPlantList.Use = GlobalPlantList.Use;
+
+      if (!ModelState.IsValid)
             {
                 return Page();
             }
+
       this.OrchardName = OrchardName;
 
-            _context.GlobalPlantLists.Add(GlobalPlantList);
-            await _context.SaveChangesAsync();
+      _context.UserPlantLists.Add(userPlantList);
+      await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+
+           // _context.GlobalPlantLists.Add(GlobalPlantList);
+           // await _context.SaveChangesAsync();
+
+            return RedirectToPage("/UserPlants/Index");
         }
     }
 }

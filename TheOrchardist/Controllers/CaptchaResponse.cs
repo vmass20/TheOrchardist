@@ -14,8 +14,8 @@ namespace TheOrchardist.Controllers
     {
       var client = new System.Net.WebClient();
 
+      //string PrivateKey = Startup.Configuration["AppSettings:GoogleCaptchaSecretKeyDev"];
       string PrivateKey = Startup.Configuration["AppSettings:GoogleCaptchaSecretKey"];
-     // string PrivateKey = Startup.Configuration["AppSettings:GoogleCaptchaSecretKey"];
       var GoogleReply = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", PrivateKey, EncodedResponse));
 
       var captchaResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<CaptchaResponse>(GoogleReply);

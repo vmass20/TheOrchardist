@@ -23,73 +23,36 @@ namespace TheOrchardist.Pages.Account.UserPlants
         [BindProperty]
         public string OrchardName { get; set; }
 
-    GlobalPlantList globalPlantList = new GlobalPlantList();
-    UserPlantList userPlantList = new UserPlantList();
-    public async Task< IActionResult> OnGet(int? id, string OrchardName)
+
+   [BindProperty]
+    public UserPlantList UserPlantList { get; set; }
+
+    public IActionResult OnGetAsync(int? id, string OrchardName)
         {
-      if (UserPlantList == null)
-      {
-        UserPlantList = new UserPlantList();
-      }
-   
-      //if (OrchardNames != null)
-      //{ OrchardNamesList = new SelectList(OrchardNames); }
-      if (id != null)
-      {
-
-        globalPlantList = await _context.GlobalPlantLists.SingleOrDefaultAsync(m => m.ID == id);
-        if (OrchardName != null)
-        { userPlantList.OrchardName = OrchardName;
-          this.OrchardName = OrchardName;
-        }
-        userPlantList.FruitVariety = globalPlantList.FruitVariety;
-        userPlantList.PlantName = globalPlantList.Name;
-        userPlantList.Origin = globalPlantList.Origin;
-        userPlantList.YearDeveloped = globalPlantList.YearDeveloped;
-        userPlantList.Comments = globalPlantList.Comments;
-        userPlantList.Use = globalPlantList.Use;
-        UserPlantList = userPlantList;
-      }
-      else
-      {
-      userPlantList = new UserPlantList();
-        if (OrchardName != null)
-        { UserPlantList.OrchardName = OrchardName;
-          this.OrchardName = OrchardName;
-        }
+      //UserPlantList = new UserPlantList();
+      this.OrchardName = OrchardName;
+      var userId = _userManager.GetUserId(HttpContext.User);
 
 
-      }
-      if (userPlantList == null)
-      {
-        return NotFound();
-      }
+      this.UserPlantList = new UserPlantList();
+
       return Page();
-        }
+    }
 
-        [BindProperty]
-        public UserPlantList UserPlantList { get; set; }
-
-    public async Task<IActionResult> OnPostAsync(string OrchardName)
+    public async Task<IActionResult> OnPost(int? id, string OrchardName, UserPlantList userPlantList)
     {
+
+      this.OrchardName = OrchardName;
+      var userId = _userManager.GetUserId(HttpContext.User);
+      UserPlantList.UserID = userId;
+
       if (!ModelState.IsValid)
       {
         return Page();
       }
-      this.OrchardName = OrchardName;
-  
-      var userId = _userManager.GetUserId(HttpContext.User);
-      UserPlantList.UserID = userId;
 
       _context.Attach(UserPlantList).State = EntityState.Added;
       _context.UserPlantLists.Add(UserPlantList);
-
-      
-      GlobalPlantList plantList = new GlobalPlantList();
-      plantList.Name = UserPlantList.PlantName;
-      plantList.FruitVariety = UserPlantList.FruitVariety;
-      _context.Attach(plantList).State = EntityState.Added;
-      _context.GlobalPlantLists.Add(plantList);
 
       try
       {

@@ -15,3 +15,11 @@ GO
 --DROP TABLE CSVTest
 GO
 
+--Azure insert with accepted datasource
+BULK INSERT GlobalPlantList
+FROM 'SeedIndex.txt'
+WITH ( DATA_SOURCE = 'massatstorage1',FIELDTERMINATOR = ',',
+ROWTERMINATOR = '\n' );
+
+
+

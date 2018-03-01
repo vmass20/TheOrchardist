@@ -32,13 +32,16 @@ namespace TheOrchardist.Pages.UserOrchards
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+      var userId = _userManager.GetUserId(HttpContext.User);
+      Orchard.UserID = userId;
+
+      if (!ModelState.IsValid)
             {
                 return Page();
             }
-      ApplicationUser currentUser = await _userManager.GetUserAsync(this.User);
-      this.Orchard.UserID = await _userManager.GetUserIdAsync(currentUser);
-            _context.Orchards.Add(Orchard);
+
+  
+      _context.Orchards.Add(Orchard);
             await _context.SaveChangesAsync();
             return RedirectToPage("./Index");
         }

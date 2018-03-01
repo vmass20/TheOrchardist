@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  
     <meta name="google-site-verification" content="D0XTAa5GsgIIg5I4V2wzJXkUK26h1A5zGTcqMKGbOdA" />
-    <title>@ViewData["Title"] - TheOrchardist</title>
+    <title>@ViewData["Title"] - The Orchardist</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -17,16 +17,20 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+    <script type="text/javascript" src='@Url.Content("~/js/Concrete.js")'>
+
+    </script>
+    @RenderSection("Scripts", required: false)
 </head>
 <body style="background-color:burlywood">
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-                <div class="navbar-header">
-                    <a asp-page="/Index"><img width="75" height="50" src="https://massatstorage.blob.core.windows.net/orchadistfiles/logonew.png" /></a>
-                </div>
+            <div class="navbar-header">
+                <a asp-page="/Index"><img width="85" height="55" src="https://massatstorage.blob.core.windows.net/orchadistfiles/logonew.png" /></a>
+            </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a  asp-page="/UserOrchards/Index">My Orchard(s)</a></li>
+                    <li>  <a asp-page="/UserOrchards/Index">My Orchard(s)</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -34,10 +38,9 @@
     </nav>
     <div class="container body-content">
         @RenderBody()
-        <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - The Orchardist</p>
-           <ul> <li><a asp-page="/Contact">Contact Us</a></li></ul>
+            <ul> <li><a asp-page="/Contact">Contact Us</a></li></ul>
         </footer>
     </div>
 
@@ -45,6 +48,7 @@
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/Concrete.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
@@ -60,8 +64,8 @@
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="~/js/Concrete.min.js" asp-append-version="true"></script>
     </environment>
-
-    @RenderSection("Scripts", required: false)
+ 
 </body>
 </html>

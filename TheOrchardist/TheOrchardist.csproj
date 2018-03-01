@@ -9,10 +9,24 @@
     <PackageIconUrl></PackageIconUrl>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Migrations\20180225032345_initial2.cs" />
+    <Compile Remove="Migrations\20180225032345_initial2.Designer.cs" />
+    <Compile Remove="Migrations\20180225045928_initial2.cs" />
+    <Compile Remove="Migrations\20180225045928_initial2.Designer.cs" />
+    <Compile Remove="Migrations\20180225045959_initial2.cs" />
+    <Compile Remove="Migrations\20180225045959_initial2.Designer.cs" />
+    <Compile Remove="Migrations\20180225172703_InitialCreate.cs" />
+    <Compile Remove="Migrations\20180225172703_InitialCreate.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Properties\PublishProfiles\TheOrchardist - Web Deploy.pubxml" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="2.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" PrivateAssets="All" />
+    <PackageReference Include="Sendgrid" Version="9.9.0" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.0.0" />
   </ItemGroup>
   <ItemGroup>
@@ -21,6 +35,15 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="System.Web">
+      <HintPath>..\..\..\..\..\..\Program Files\dotnet\shared\Microsoft.NETCore.App\2.0.5\System.Web.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
     <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 </Project>

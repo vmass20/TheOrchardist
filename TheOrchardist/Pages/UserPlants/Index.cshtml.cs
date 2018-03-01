@@ -30,7 +30,7 @@ namespace TheOrchardist.Pages.Account.UserPlants
         {
       this.OrchardName = OrchardName;
       var userId = _userManager.GetUserId(HttpContext.User);
-
+     
       if (OrchardName == null)
       {
         UserPlantList = await _context.UserPlantLists.Where(u => u.UserID == userId).ToListAsync();
@@ -40,15 +40,15 @@ namespace TheOrchardist.Pages.Account.UserPlants
       else
       {
         UserPlantList = await _context.UserPlantLists.Where(u => u.UserID == userId & u.OrchardName == OrchardName).ToListAsync();
-   
+    
       }
 
       this.OrchardName = OrchardName;  
         }
-    public void OnPostAync(int? id, string OrchardName)
-    {
-      this.OrchardName = OrchardName;
-   ;
-    }
+    //public void OnPostAync(int? id, string OrchardName)
+    //{
+    //  this.OrchardName = OrchardName;
+   
+    //}
   }
 }

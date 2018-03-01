@@ -26,7 +26,7 @@ namespace TheOrchardist.Data
 
       modelBuilder.Entity<GlobalPlantList>().ToTable("GlobalPlantList");
 
-      modelBuilder.Entity<UserPlantList>().HasKey(k => new { k.OrchardID });
+
       base.OnModelCreating(modelBuilder);
     }
    

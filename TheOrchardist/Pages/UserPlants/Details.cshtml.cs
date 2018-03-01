@@ -28,7 +28,7 @@ namespace TheOrchardist.Pages.Account.UserPlants
                 return NotFound();
             }
       this.OrchardName = OrchardName;
-            UserPlantList = await _context.UserPlantLists.SingleOrDefaultAsync(m => m.OrchardID == id);
+            UserPlantList = await _context.UserPlantLists.SingleOrDefaultAsync(m => m.ID == id);
 
             if (UserPlantList == null)
             {

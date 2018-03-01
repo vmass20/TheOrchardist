@@ -115,10 +115,9 @@ namespace TheOrchardist.Pages.Account
                 {
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
-       // PasswordHasher<ApplicationUser> passHash = new PasswordHasher<ApplicationUser>();
-     //    String pass =  passHash.HashPassword(await _userManager.GetUserAsync(User), Startup.Configuration["AppSettings:SeedUserPW"]);
-        var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, EmailConfirmed = true };
-      //  var role = new ApplicationUserTokens { UserId = user.Id , LoginProvider = info.LoginProvider, Name = info.ProviderDisplayName, Value = info.va};
+
+               var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email,  EmailConfirmed = true };
+
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -127,7 +126,6 @@ namespace TheOrchardist.Pages.Account
                     if (result.Succeeded)
                     { 
                        //does user have a password yet?
-                     //  IUserPasswordStore<ApplicationUser> userPasswordStore = _userManager.pass
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
                         return LocalRedirect(Url.GetLocalUrl(returnUrl));

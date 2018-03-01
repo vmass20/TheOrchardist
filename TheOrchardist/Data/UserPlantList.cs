@@ -9,11 +9,10 @@ namespace TheOrchardist.Data
   public class UserPlantList
   {
   public int ID { get; set; }
-    public int OrchardID { get; set; }
+
     public String UserID { get; set; }
     [Display(Name = "Orchard Name")]
     public string OrchardName { get; set; }
-    public Orchard Orchard { get; set; }
 
     [Required]
     [StringLength(60, MinimumLength = 2)]

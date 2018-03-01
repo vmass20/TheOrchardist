@@ -63,6 +63,7 @@ options1.UseSqlServer(Configuration.GetConnectionString("AzureConnection")));
                     options.Conventions.AuthorizePage("/Account/Logout");
                     options.Conventions.AuthorizeFolder("/UserPlants");
                     options.Conventions.AuthorizeFolder("/GlobalPlants");
+                  options.Conventions.AuthorizeFolder("/UserOrchards");
                 });
 
             // Register no-op EmailSender used by account confirmation and password reset during development

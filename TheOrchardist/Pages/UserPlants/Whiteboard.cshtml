@@ -1,0 +1,894 @@
+﻿@page
+@model TheOrchardist.Pages.UserPlants.WhiteboardModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@section Scripts
+    {
+    <script type="text/javascript" src='@Url.Content("~/js/Concrete.js")'>
+
+    </script>
+
+
+}
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a asp-page="/Index"><img width="85" height="55" src="https://massatstorage.blob.core.windows.net/orchadistfiles/logonew.png" /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a asp-page="/UserOrchards/Index">Orchards</a></li>
+            </ul>
+            @await Html.PartialAsync("_LoginPartial")
+        </div>
+    </div>
+</nav>
+
+<style class="cp-pen-styles">
+    /* General */
+    body {
+        background-color: black;
+    }
+    .graphpaper {
+        background-size: 40px 40px;
+        background-image: linear-gradient(to right, grey 1px, transparent 1px), linear-gradient(to bottom, grey 1px, transparent 1px);
+    }
+
+    h2, h3 {
+        cursor: default;
+    }
+
+    .panel {
+        background-color: #428bca;
+        border: none;
+    }
+
+    .panel-body {
+        margin-top: -14px;
+        margin-bottom: -7px;
+    }
+
+    Panel buttons .panelbuttons {
+        margin-top: 7px;
+        margin-bottom: -7px;
+        border: none;
+    }
+
+    #projectinfo {
+        float: right;
+    }
+    /* Options */
+    .optionstext {
+        cursor: default;
+        text-align: left;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    .new-game {
+        background: darkgray;
+        height: 200px;
+        margin-top: 250px;
+        max-width: 320px;
+        padding: 20px;
+        z-index: 10;
+        position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        top: 80px;
+    }
+    .save-game {
+        background: darkgray;
+        height: 200px;
+        margin-top: 250px;
+        max-width: 320px;
+        padding: 20px;
+        z-index: 10;
+        position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        top: 80px;
+    }
+    #text {
+        margin-bottom: 25px;
+        margin-top: -35px;
+    }
+
+    #mainoptiontext {
+        margin-bottom: 25px;
+        margin-top: -10px;
+    }
+
+    /* Inputs and Checkbox */
+    #input {
+        width: 90px;
+        height: 25px;
+        font-size: small;
+        border: 1px solid black;
+        cursor: auto;
+        margin-bottom: 2px;
+    }
+
+    #input2 {
+        width: 90px;
+        height: 25px;
+        font-size: small;
+        border: 1px solid black;
+        cursor: auto;
+        margin-left: 10px;
+    }
+
+    /* Exit button image and its positioning */
+    img {
+        width: 20px;
+    }
+
+    #exit {
+        position: relative;
+        top: -15px;
+        left: 145px;
+        cursor: pointer;
+        display: inline;
+    }
+
+
+
+    /* Canvas */
+    #canvas {
+        background: white;
+        border: 1px solid red;
+        position: relative;
+        cursor: pointer;
+    }
+
+
+    /* Error warning */
+    .alert-danger {
+        margin-top: -19px;
+        max-width: 50%;
+        border-radius: 25px;
+        border: 2px solid;
+        font-weight: bold;
+        z-index: 5;
+    }
+
+    td {
+        padding: 0 15px 0 15px;
+    }
+</style>
+<!-- Options menu (Jumbotron) -->
+<div class="jumbotron new-game">
+    <div id="exit"> <span class="glyphicon glyphicon-remove"></span></div>
+    <div id="text">
+        <h2 id="mainoptiontext">Options</h2>
+        <h3>*WARNING! Resize will clear the current project</h3>
+        <span class="optionstext">
+            Canvas height:<span><input type="text" id="input" placeholder="400" title="in pixels"></span>
+        </span>
+        <br>
+        <span class="optionstext">
+            Canvas width:<span><input type="text" id="input2" placeholder="400" title="in pixels"></span>
+        </span>
+        <br>
+    </div>
+    <p>
+        <a id="Confirm" class="btn btn-primary" href="#" role="button">Confirm</a>
+        <a id="Cancel" class="btn btn-danger" href="#" role="button">Cancel</a>
+    </p>
+
+</div>
+<div class="jumbotron save-game">
+    <div id="exit"> <span class="glyphicon glyphicon-remove"></span></div>
+    <div id="text">
+        <h2 id="mainoptiontext">Options</h2>
+        <span class="optionstext">
+            Orchard Map Saved!
+        </span>
+        <br>
+    </div>
+    <p>
+        <a id="Ok" class="btn btn-primary" href="#" role="button">Ok</a>
+        
+    </p>
+
+</div>
+<div class="alert alert-danger" role="alert"> Error: You need to enter a NUMBER higher than 0 to change canvas size.</div>
+<div class="panel panel-primary">
+    <div class="panel-body">
+        <a class="btn btn-primary settings panelbuttons" href="#" role="button" id="start">Resize</a>
+        <a class='btn btn-primary panelbuttons' href='#' role='button' id='clearcanvas'>Clear </a>
+        <a class='btn btn-primary savepopup panelbuttons' href='#' role='button' id="btnSave">Save</a>
+        <a class='btn btn-primary panelbuttons' href='#' role='button' id="btn-download" download="drawing.png">Download</a>
+        <a class='btn btn-primary panelbuttons' href='#' role='button' id='btnFreeHand' style="color:black"> Free Hand </a>
+        <a class='btn btn-primary panelbuttons' href='#' role='button' id='btnLine'> Line </a>
+        <a class='btn btn-primary panelbuttons' href='#' role='button' id='btnCircle'> Circle </a>
+        <a class='btn btn-primary panelbuttons' href='#' role='button' id='btnSquare'> Square </a>
+        <a class='btn btn-primary panelbuttons' href='#' role='button' id='btnTree'> Tree </a>
+        <select title="Grid Size" href='#'  role='list' id='lstGridSize' name="gridsizeList" 
+        onchange="if (typeof (this.selectedIndex) != undefined){switch ($('#lstGridSize').val())
+    {
+        case '1': canvasDiv.style = 'background-color:white;border: 2px solid red; background-size: 10px 10px; background-image: linear-gradient(to right, grey 1px, transparent 1px), linear-gradient(to bottom, grey 1px, transparent 1px);'; break;
+        case '2': canvasDiv.style = 'background-color:white;border: 2px solid red; background-size: 20px 20px; background-image: linear-gradient(to right, grey 1px, transparent 1px), linear-gradient(to bottom, grey 1px, transparent 1px);'; break;
+        case '3': canvasDiv.style = 'background-color:white;border: 2px solid red; background-size: 30px 30px; background-image: linear-gradient(to right, grey 1px, transparent 1px), linear-gradient(to bottom, grey 1px, transparent 1px);'; break;
+    } this.blur();
+    }" onblur="if (this.selectedIndex == -1) this.selectedIndex = lastSelectedOption;" onfocus="lastSelectedOption = this.selectedIndex;this.selectedIndex = -1;" onemptied="alert('empty')">
+            <option value="-1">-Grid Size-</option>
+            <option value="1">Small</option>
+            <option value="2">Medium</option>
+            <option value="3">Large</option>
+        </select> 
+   
+    </div>
+</div>
+<!-- Bootstrap container -->
+
+<div id="topDiv" class="container">
+            <!-- Canvas (Jumbotron) with concrete.js for layering-->
+            <div id="canvasDiv"  >
+
+            </div>
+            <table>
+                <tr>
+                    <td>Choose Color:</td>
+                    <td style="border-color:gray;border:2px solid;width:20px;height:20px;background:green;" id="green" onclick="color(this)"></td>
+                    <td style="border-color:gray;border:2px solid;width:20px;height:20px;background:blue;" id="blue" onclick="color(this)"></td>
+                    <td style="border-color:gray;border:2px solid; width:20px;height:20px;background:red;" id="red" onclick="color(this)"></td>
+                    <td style="border-color:gray; border:2px solid;width:20px;height:20px;background:yellow;" id="yellow" onclick="color(this)"></td>
+                    <td style="border-color:gray;border:2px solid; width:20px;height:20px;background:orange;" id="orange" onclick="color(this)"></td>
+                    <td style="border-color:gray;border:2px solid; width:20px; height:20px; background:black;" id="black" onclick="color(this)"></td>
+                    <td>Eraser:</td>
+                    <td style="padding-right:20px;height:20px;background:white;border:2px solid;" id="white" onclick="color(this)"></td>
+                </tr>
+
+            </table>
+</div>
+        <div id="userPlants">
+            <section><h2>@Model.OrchardName</h2></section>
+
+            <table class="table" style="table-layout:fixed">
+                <thead>
+                    <tr>
+                        <th >
+                            @Html.DisplayNameFor(model => model.UserPlantList[0].PlantName)
+                        </th>
+                        <th >
+                            @Html.DisplayNameFor(model => model.UserPlantList[0].FruitVariety)
+                        </th>
+                        <th >
+                            @Html.DisplayNameFor(model => model.UserPlantList[0].Use)
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model.UserPlantList)
+                    {
+                        <tr>
+                            <td>
+                                <a style="font-weight:bold" asp-page="./Details" asp-route-id="@item.ID" asp-route-orchardname="@item.OrchardName">
+                                    @Html.DisplayFor(modelItem => item.PlantName)
+                                </a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FruitVariety)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Use)
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+       </div>
+
+
+<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+
+
+<script type="text/javascript">
+
+    const minSize = 10;
+    const maxSize = 128;
+    var canvasDiv = document.getElementById('canvasDiv');
+    var topDiv = document.getElementById('topDiv');
+    //var canvas = document.getElementById('canvas');
+    var lineCanvas;// = document.getElementById('lineCanvas');
+    var lastSelectedOption;
+    var lineContext;
+    var fLine = false;
+    var fCircle = false;
+    var fSquare = false;
+    var fFreeHand = true;
+    var fTree = false;
+    var fColorChange = false;
+    var colorStroke;
+    var prevColorStroke = "black";
+    var lineWidth = 5;
+    var paint;
+    var clicks = 0;
+    var lastClick = [0, 0];
+    var firstClick = [0, 0];
+    var intervalLoop = null;
+    ////
+    var canvasPosition, drawPath, input, isDrawing, isMoving, points, requestAnimationFrame, w;
+    var smallGrid = '10'; medGrid = '20'; largeGrid = '40';
+
+    //Save the clicks
+    var clickX = new Array();
+    var clickY = new Array();
+    var clickDrag = new Array();
+    var cursorX, cursorY;
+
+    if (typeof G_vmlCanvasManager != 'undefined') {
+        canvas = G_vmlCanvasManager.initElement(canvas);
+        document.write("Can you please stop using Internet Explorer?")
+    }
+
+    //-----------------------------------------------//
+
+    requestAnimationFrame = function () {
+        return requestAnimationFrame || webkitRequestAnimationFrame || mozRequestAnimationFrame || function (callback) {
+            return setTimeout(callback, 1000 / 60);
+        };
+    };
+
+    isDrawing = false;
+
+    isMoving = false;
+    isMouseLeave = false;
+    points = {
+        'array': [],
+        'size': 0
+    };
+    canvasDiv.style = "background-color:white;border: 2px solid red; background-size: 20px 20px; background-image: linear-gradient(to right, grey 1px, transparent 1px), linear-gradient(to bottom, grey 1px, transparent 1px);";
+    //canvasDiv.className = "graphpaper"
+    var viewport = new Concrete.Viewport({
+        width: canvasDiv.offsetWidth,
+        height: 400,
+        container: canvasDiv
+    });
+
+    var layer1 = new Concrete.Layer({
+       // width: 100 + '%',
+       // width: topDiv.clientWidth
+    });
+    var layer2 = new Concrete.Layer({
+   // width: 100 + '%',
+        //width: 400, height: 400
+    });
+
+    viewport.add(layer1).add(layer2);
+    var context = viewport.scene.context;
+
+    //canvasPosition = scene2.canvas.getBoundingClientRect();
+    var scene1 = layer1.scene;
+    var can = scene1.canvas;
+   
+    var layer1context = scene1.context;
+
+    var scene2 = layer2.scene;
+    var layer2context = scene2.context;
+   // scene2.style = "background-color:white;"
+    var respone = new Array();
+     input = layer1.width;
+     w = input;
+     $(document).ready(function (e) {
+
+         var urlGet = '@Url.Action("GetOrchardMap", "Orchards", new { Model.OrchardName }, "https" )';
+
+         var mouseX = e.pageX - this.offsetLeft;
+         var mouseY = e.pageY - this.offsetTop;
+
+         $.ajax({
+             type: "GET",
+             contentType: "application/json",
+             url: urlGet,
+             dataType: "json",
+             success: function (response) {
+                 //var respo = JSON.stringify(response);
+
+                 respone = response.split('Seperator');
+
+                 var img = new Image;
+
+                 img.onload = function () {
+                     layer1context.drawImage(img, 0, 0, layer1.width, layer1.height); // Or at whatever offset you like
+                     layer1context.drawImage(img2, 0, 0, layer1.width, layer1.height);
+                     viewport.render();
+                 };
+                 img.src = respone[0];
+
+                 var img2 = new Image;
+
+                 img2.onload = function () {
+                 };
+                 img2.src = respone[1];
+
+             }
+         });
+
+         //Loading up the canvas functions
+         //Checking where the mouse is
+         canvasDiv.addEventListener('mousedown', function (e) {
+             e.defaultPrevented = true;
+             var mouseX = e.pageX - this.offsetLeft;
+             var mouseY = e.pageY - this.offsetTop;
+             var boundingRect = canvasDiv.getBoundingClientRect(),
+                 x = e.clientX - boundingRect.left,
+                 y = e.clientY - boundingRect.top,
+                 key = viewport.getIntersection(x, y);
+             paint = true;
+             if (!fLine) {
+                 if (!fCircle & !fSquare & !fLine & !fTree) {
+
+                     addClick(mouseX, mouseY);
+                 }
+
+                 redraw(mouseX, mouseY);
+
+             }
+             else {
+                // drawPath(points);
+               
+                 points['array'].push({
+                     'x': mouseX,
+                     'y': mouseY
+                 });
+                 points['size'] = points['array'].length;
+                 return isDrawing = true;
+
+
+             }
+         });
+
+         //When user is pressing down, draw
+         $('#canvasDiv').mousemove(function (e) {
+             cursorX = e.pageX - this.offsetLeft;
+             cursorY = e.pageY - this.offsetTop;
+
+             var mouseX = e.pageX - this.offsetLeft;
+             var mouseY = e.pageY - this.offsetTop;
+
+             if (!fLine) {
+                 if (paint) {
+                     if (!fCircle & !fSquare & !fTree) {
+
+                         addClick(mouseX, mouseY, true);
+                     }
+
+                     redraw(mouseX, mouseY);
+
+                 }
+             }
+             else {
+                 if (isDrawing) {
+                     isMoving = true;
+                     points['array'][points['size']] = {
+                         'x': mouseX,
+                         'y': mouseY,
+                         'w': input
+                     };
+
+                      drawPath(points);
+                 }
+
+             }
+
+            // fColorChange = false;
+         });
+
+         //On mouse up, don't draw
+         $('#canvasDiv').mouseup(function (e) {
+             paint = false;
+            // fColorChange = false;
+             if (fLine) {
+                 isDrawing = false;
+                 //if (isMoving) {
+                 //    isMoving = false;
+                   //  return points['array'].pop();
+                // }
+                 
+                 if (isMoving) {
+                     return isMoving = false;
+                 } else {
+                     //if (!isMouseLeave) {
+                     //isMouseLeave = false;
+                    // layer2context.strokeStyle = colorStroke
+                     return points['array'].pop();
+                     // }
+                 }
+             }
+             //context.globalCompositeOperation = 'source-over';
+         });
+
+         ////If mouse leaves the canvas you cant draw
+         //$('#canvasDiv').mouseleave(function (e) {
+
+         //    if (fLine) {
+         //        isMouseLeave = true;
+         //    }
+         //    fColorChange = false;
+         //});
+
+         //On mouse up, don't draw
+         //$('#topDiv').mouseup(function (e) {
+
+         //    isMoving = false;
+         //    fColorChange = false;
+
+         //});
+         function addClick(x, y, dragging) {
+             clickX.push(x);
+             clickY.push(y);
+             clickDrag.push(dragging);
+         }
+
+         drawPath = function (points) {
+             layer2context.clearRect(0, 0, layer2.width, layer2.height);
+             //layer2context.fillStyle = "#fff"
+             //context.fillRect(0, 0, canvas.width, canvas.height)
+             if (fColorChange) {}
+            // layer2context.strokeStyle = colorStroke;
+            // prevColorStroke = colorStroke;
+             layer2context.lineJoin = "round";
+             layer2context.lineWidth = lineWidth;
+             // context.globalCompositeOperation = 'destination-over';
+             return points['array'].forEach(function (value, index) {
+                 if (index % 2 === 0) {
+                     layer2context.save();
+                     layer2context.beginPath();
+                     layer2context.lineCap = 'round';
+
+                     layer2context.moveTo(value.x, value.y);
+                     viewport.render();
+                 } else {
+                     layer2context.lineTo(value.x, value.y);
+                     //  context.lineWidth = value.w;
+                     // context.strokeStyle = '#ffffff';
+
+                     layer2context.stroke();
+                     layer2context.restore();
+                     viewport.render();
+                 }
+
+             });
+         };
+
+         function redraw(mouseX, mouseY) {
+
+             layer1context.fillStyle = "#fff"
+             //context.fillRect(0, 0, canvas.width, canvas.height)
+             layer1context.strokeStyle = colorStroke;
+             prevColorStroke = colorStroke;
+             layer1context.lineJoin = "round";
+             layer1context.lineWidth = lineWidth;
+             if (fColorChange) {
+                 return;
+             }
+             if (fCircle) {
+                 drawcircle(mouseX, mouseY);
+             }
+             else if (fSquare) {
+                 drawsquare(mouseX, mouseY);
+             }
+             else if (fLine) {
+                // drawline(mouseX, mouseY);
+                 drawPath(points);
+             }
+             else if (fTree) {
+                 drawtree(mouseX, mouseY)
+             }
+             else {
+
+                 for (var i = 0; i < clickX.length; i++) {
+
+                     layer1context.beginPath();
+                     if (clickDrag[i] && i) {
+                         layer1context.moveTo(clickX[i - 1], clickY[i - 1]);
+                     }
+                     else {
+                         layer1context.moveTo(clickX[i] - 1, clickY[i]);
+                     }
+                     layer1context.lineTo(clickX[i], clickY[i]);
+                     layer1context.closePath();
+                     layer1context.stroke();
+                 }
+
+             }
+             viewport.render();
+             // window.CP.exitedLoop(1);
+
+         }
+
+         var clearBtn = document.getElementById('clearcanvas');
+         clearBtn.addEventListener('click', function (e) {
+             scene1.clear();
+             scene2.clear();
+             //layer1.destroy();
+             //layer2.destroy();
+
+             viewport.render();
+             //layer1context.clearRect(0, 0, layer1.width, layer1.height);
+             //layer2context.clearRect(0, 0, layer1.width, layer1.height);
+             clickX = []; clickY = []; clickDrag = [];
+             points = {
+                 'array': [],
+                 'size': 0
+             };
+         });
+
+         //Set up the starting page
+         $("a, #exit").mousedown(function () {
+
+         });
+         $("a, #exit").mouseup(function () {
+
+         });
+         //Taking out the garbage
+         $(".new-game").hide();
+         $(".save-game").hide();
+         $(".alert-danger").hide();
+
+         //Cancel and Exit button
+         $("#exit, .btn-danger").click(function () {
+             $(".new-game").hide();
+             $(".save-game").hide();
+             $(".alert-danger").hide(); $('input:checkbox').removeAttr('checked');
+             $("input[type=text]").val("");
+         });
+
+         //-----------------------------------------------//
+
+
+         var lineBtn = document.getElementById('btnLine');
+         lineBtn.addEventListener('click', function (e) {
+             if (fLine) { fLine = false; }
+             else {
+                 fLine = true; fCircle = false; fSquare = false; fTree = false;
+                 circleBtn.style.color = "white";
+                 squareBtn.style.color = "white";
+                 freehandBtn.style.color = "white";
+                 lineBtn.style.color = "black";
+                 treeBtn.style.color = 'white';
+             }
+         });
+         var circleBtn = document.getElementById('btnCircle');
+         circleBtn.addEventListener('click', function (e) {
+             if (fCircle) { fCircle = false; }
+             else {
+                 fCircle = true; fSquare = false; fLine = false; fTree = false;
+                 circleBtn.style.color = "black";
+                 squareBtn.style.color = "white";
+                 freehandBtn.style.color = "white";
+                 lineBtn.style.color = "white";
+                 treeBtn.style.color = 'white';
+             }
+         });
+
+         var squareBtn = document.getElementById('btnSquare');
+         squareBtn.addEventListener('click', function (e) {
+             if (fSquare) { fSquare = false; }
+             else {
+                 fSquare = true; fCircle = false; fLine = false; fTree = false;
+                 circleBtn.style.color = "white";
+                 squareBtn.style.color = "black";
+                 freehandBtn.style.color = "white";
+                 lineBtn.style.color = "white";
+                 treeBtn.style.color = 'white';
+             }
+         });
+         var treeBtn = document.getElementById('btnTree');
+         treeBtn.addEventListener('click', function (e) {
+             if (fTree) { fTree = false; }
+             else {
+                 fTree = true;
+                 fSquare = false;
+                 fCircle = false;
+                 fLine = false;
+                 treeBtn.style.color = 'black';
+                 circleBtn.style.color = "white";
+                 squareBtn.style.color = "white";
+                 freehandBtn.style.color = "white"
+                 lineBtn.style.color = "white";
+
+             }
+         });
+         var freehandBtn = document.getElementById('btnFreeHand');
+         freehandBtn.addEventListener('click', function (e) {
+             fFreeHand = true;
+             fSquare = false;
+             fCircle = false;
+             fLine = false
+             circleBtn.style.color = "white";
+             squareBtn.style.color = "white";
+             freehandBtn.style.color = "black"
+             lineBtn.style.color = "white";
+             treeBtn.style.color = 'white';
+         });
+         var gridsizeList = document.getElementById('lstGridSize');
+         freehandBtn.addEventListener('click', function (e) {
+               
+         });
+
+         //Save The Drawing
+         var url = '@Url.Action("AddTag", "Orchards")';
+         var buttonSave = document.getElementById('btnSave');
+         buttonSave.addEventListener('click', function (e) {
+             var dataURL = scene1.canvas.toDataURL('image/png');
+             var dataURL2 = scene2.canvas.toDataURL('image/png');
+             var orchardN = '@Model.OrchardName';
+             var data = { tag: dataURL + 'Seperator' + dataURL2, OrchardName: orchardN };
+             e.preventDefault();
+             $.ajax({
+                 type: "POST",
+                 contentType: "application/json; charset=utf-8",
+                 url: url,
+                 dataType: "json",
+                 data: JSON.stringify(data),
+                 success: function (response) {
+                     //scene1.canvas.dataURL = response;
+                 }
+             });
+
+
+             buttonSave.href = dataURL;
+            @*@Model.Orchard.OrchardMapDataUrl = dataURL;*@
+         });
+         var buttonDL = document.getElementById('btn-download');
+         buttonDL.addEventListener('click', function (e) {
+             var dataURL = scene1.canvas.toDataURL('image/png');
+             buttonDL.href = dataURL;
+            @*@Model.Orchard.OrchardMapDataUrl = dataURL;*@
+         });
+
+         $(".savepopup").click(function (e) {
+             $(".save-game").toggle('Drop');
+             //Confirm button toggles if statement
+             $("#Ok").click(function () {
+                 // canvasDiv.style.height = height;
+                 $(".save-game").hide();
+             });
+         });
+
+         //New Game button toggles options
+         $(".settings").click(function (e) {
+             $(".new-game").toggle('Drop');
+             //Confirm button toggles if statement
+             $("#Confirm").click(function () {
+                 //Calculate the canvas
+                 var height = $("#input").val();
+                 var width = $("#input2").val();
+
+                 viewport.setSize(width, height);
+                 layer1.setSize(width, height);
+                 layer2.setSize(width, height);
+                 scene1.setSize(width, height);
+                 scene2.setSize(width, height);
+                 canvasDiv.style = "width: " + width + "px" + "; height: " + height + "px" + "; background-color:white;2px solid red; background-size: 40px 40px; background-image: linear-gradient(to right, grey 1px, transparent 1px), linear-gradient(to bottom, grey 1px, transparent 1px);";
+                 // canvasDiv.style.height = height;
+                 var mouseX = e.pageX - this.offsetLeft;
+                 var mouseY = e.pageY - this.offsetTop;
+
+                 //If everythings ok
+                 if (width.length > 0 && height.length > 0 && $.isNumeric(width) && $.isNumeric(height)) {
+                     $(".new-game").hide();
+                     //layer1context.drawImage(img, 0, 0, layer1.width, layer1.height);
+                     //layer2context.drawImage(img2, 0, 0, layer1.width, layer1.height);
+                     
+                     addClick(mouseX, mouseY);
+
+                     redraw(mouseX, mouseY);
+                     points['array'].pop();
+
+                     //   layer1context.restore();
+                     //$("#canvas").show();
+                     //$(".alert-danger").hide(); $("#projectinfo").css('float', 'right');
+                     //$("#clearcanvas").show();
+                     //$("#savedrawing").show();
+                 }
+                 else {
+                     $(".alert-danger").show();
+                     $("#input").focus();
+                     viewport.setSize(400, 400);
+                     layer1.setSize(400, 400);
+                     layer2.setSize(400, 400);
+                     scene1.setSize(400, 400);
+                     scene2.setSize(400, 400);
+
+                 }
+                 viewport.render();
+             });
+         });
+         //-----------------------------------------------//
+
+     });
+
+
+            function drawcircle(mouseX, mouseY) {
+
+            layer1context.beginPath();
+
+            layer1context.arc(mouseX, mouseY, 20, 0, 2 * Math.PI);
+
+            layer1context.stroke();
+            };
+
+            function drawsquare(mouseX, mouseY) {
+
+                layer1context.beginPath();
+                layer1context.rect(mouseX, mouseY, 20, 20)
+                layer1context.stroke();
+            };
+            function drawtree(mouseX, mouseY) {
+
+                layer1context.beginPath();
+                layer1context.arc(75, 75, 50, 0, Math.PI * 2, true); // Outer circle
+                layer1context.moveTo(110, 75);
+                layer1context.arc(75, 75, 35, 0, Math.PI, false);  // Mouth (clockwise)
+                layer1context.moveTo(65, 65);
+                layer1context.arc(60, 65, 5, 0, Math.PI * 2, true);  // Left eye
+                layer1context.moveTo(95, 65);
+                layer1context.arc(90, 65, 5, 0, Math.PI * 2, true);  // Right eye
+                layer1context.stroke()
+            };
+            function drawline(mouseX, mouseY) {
+
+            if (clicks != 1) {
+            clicks++;
+
+            } else {
+            layer2context.beginPath();
+            layer2context.moveTo(lastClick[0], lastClick[1]);
+            layer2context.lineTo(mouseX, mouseY, 6);
+
+            // context.strokeStyle = '#000000';
+            layer2context.stroke();
+
+            clicks = 0;
+            }
+
+            lastClick = [mouseX, mouseY];
+
+            };
+            function color(obj) {
+
+
+                if (prevColorStroke != undefined & prevColorStroke != obj.id) {
+                    var prevBtn = document.getElementById(prevColorStroke);
+                    prevBtn.style.borderColor = "gray"
+                    prevBtn.style.border = "2px solid"
+                    prevColorStroke = obj.id;
+                }
+                //update color
+                colorStroke = obj.id;
+                prevColorStroke = obj.id;
+                if (colorStroke == "white") { lineWidth = 14; }
+                else { lineWidth = 5; }
+
+                var Btn = document.getElementById(colorStroke);
+                Btn.style.borderColor = "gold"
+
+                layer1context.strokeStyle = colorStroke;
+                layer1context.lineWidth = lineWidth;
+
+                //layer2context.strokeStyle = colorStroke;
+                //layer2context.lineWidth = lineWidth;
+
+                clickX = new Array();
+                clickY = new Array();
+                clickDrag = new Array();
+                fColorChange = true;
+
+            }
+
+
+            //# sourceURL=pen.js
+</script>

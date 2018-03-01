@@ -17,7 +17,9 @@ namespace TheOrchardist.Pages.UserOrchards
         private readonly TheOrchardist.Data.OrchardDBContext _context;
     private readonly UserManager<ApplicationUser> _userManager;
 
-    
+    [BindProperty]
+    public IList<UserPlantList> UserPlantList { get; set; }
+
     public IndexModel(TheOrchardist.Data.OrchardDBContext context,   UserManager<ApplicationUser> userManager)
         {
             _context = context;

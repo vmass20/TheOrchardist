@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace TheOrchardist.Migrations
 {
-    public partial class _1 : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,12 +15,12 @@ namespace TheOrchardist.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Comments = table.Column<string>(nullable: true),
-                    FruitVariety = table.Column<string>(maxLength: 60, nullable: false),
-                    Name = table.Column<string>(maxLength: 60, nullable: false),
-                    Origin = table.Column<string>(nullable: true),
-                    Use = table.Column<string>(nullable: true),
-                    YearDeveloped = table.Column<string>(nullable: true)
+                  Name = table.Column<string>(maxLength: 60, nullable: false),
+                  FruitVariety = table.Column<string>(maxLength: 60, nullable: false),
+                  Origin = table.Column<string>(nullable: true),
+                  YearDeveloped = table.Column<string>(nullable: true),
+                  Comments = table.Column<string>(nullable: true),                 
+                    Use = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -45,7 +45,7 @@ namespace TheOrchardist.Migrations
                 name: "UserPlantList",
                 columns: table => new
                 {
-                    OrchardID = table.Column<int>(nullable: false)
+                    ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ActualHarvestDate = table.Column<DateTime>(nullable: false),
                     Area = table.Column<string>(nullable: true),
@@ -53,12 +53,10 @@ namespace TheOrchardist.Migrations
                     DatePlanted = table.Column<DateTime>(nullable: false),
                     FruitVariety = table.Column<string>(maxLength: 60, nullable: false),
                     HarvestSeason = table.Column<string>(nullable: true),
-                    ID = table.Column<int>(nullable: false),
                     Location = table.Column<string>(nullable: true),
                     MaintainedHeight = table.Column<string>(nullable: true),
                     MaintainedWidth = table.Column<string>(nullable: true),
                     Number = table.Column<string>(nullable: true),
-                    OrchardID1 = table.Column<int>(nullable: true),
                     OrchardName = table.Column<string>(nullable: true),
                     Origin = table.Column<string>(maxLength: 200, nullable: true),
                     Parentage = table.Column<string>(maxLength: 200, nullable: true),
@@ -74,19 +72,8 @@ namespace TheOrchardist.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserPlantList", x => x.OrchardID);
-                    table.ForeignKey(
-                        name: "FK_UserPlantList_Orchard_OrchardID1",
-                        column: x => x.OrchardID1,
-                        principalTable: "Orchard",
-                        principalColumn: "OrchardID",
-                        onDelete: ReferentialAction.Restrict);
+                    table.PrimaryKey("PK_UserPlantList", x => x.ID);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserPlantList_OrchardID1",
-                table: "UserPlantList",
-                column: "OrchardID1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -95,10 +82,10 @@ namespace TheOrchardist.Migrations
                 name: "GlobalPlantList");
 
             migrationBuilder.DropTable(
-                name: "UserPlantList");
+                name: "Orchard");
 
             migrationBuilder.DropTable(
-                name: "Orchard");
+                name: "UserPlantList");
         }
     }
 }

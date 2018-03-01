@@ -11,9 +11,10 @@ using TheOrchardist.Data;
 namespace TheOrchardist.Migrations
 {
     [DbContext(typeof(OrchardDBContext))]
-    partial class OrchardDBContextModelSnapshot : ModelSnapshot
+    [Migration("20180226032848_orchardmapcolumn")]
+    partial class orchardmapcolumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

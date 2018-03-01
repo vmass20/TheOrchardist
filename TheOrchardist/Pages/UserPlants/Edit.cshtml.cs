@@ -31,7 +31,7 @@ namespace TheOrchardist.Pages.Account.UserPlants
                 return NotFound();
             }
       this.OrchardName = OrchardName;
-            UserPlantList = await _context.UserPlantLists.SingleOrDefaultAsync(m => m.OrchardID == id);
+            UserPlantList = await _context.UserPlantLists.SingleOrDefaultAsync(m => m.ID == id);
 
             if (UserPlantList == null)
             {
@@ -55,7 +55,7 @@ namespace TheOrchardist.Pages.Account.UserPlants
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserPlantListExists(UserPlantList.OrchardID))
+                if (!UserPlantListExists(UserPlantList.ID))
                 {
                     return NotFound();
                 }
@@ -70,7 +70,7 @@ namespace TheOrchardist.Pages.Account.UserPlants
 
         private bool UserPlantListExists(int id)
         {
-            return _context.UserPlantLists.Any(e => e.OrchardID == id);
+            return _context.UserPlantLists.Any(e => e.ID == id);
         }
     }
 }

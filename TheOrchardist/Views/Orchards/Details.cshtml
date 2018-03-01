@@ -1,0 +1,36 @@
+﻿@model TheOrchardist.Data.Orchard
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Orchard</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OrchardName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OrchardName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OrchardMapDataUrl)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OrchardMapDataUrl)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.OrchardID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

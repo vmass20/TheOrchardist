@@ -15,6 +15,7 @@ namespace TheOrchardist.Data
     [Display(Name = "Orchard Name")]
     public String OrchardName { get; set; }
 
-    public ICollection<UserPlantList> UserPlantLists { get; set; }
+    [DataType(DataType.Text, ErrorMessage = "Image Validation Failed")]
+    public string OrchardMapDataUrl { get; set; }
   }
 }
